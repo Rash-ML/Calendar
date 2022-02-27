@@ -108,6 +108,11 @@ class CalendarCell: UICollectionViewCell {
 extension CalendarCell {
     
     func checkTodayStyle(day: Day, in calendar: Calendar) {
+        
+        guard day.isWithinMonth else {
+            contentView.backgroundColor = .clear
+            return
+        }
         let todayColor: UIColor
         if let style = style {
             todayColor = style.todayBackgroundColor
