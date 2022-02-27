@@ -1,6 +1,5 @@
-public struct CalendarView {
-    public private(set) var text = "Hello, World!"
+import UIKit
 
-    public init() {
-    }
+public class CalendarView: UIView {
+    
 }
