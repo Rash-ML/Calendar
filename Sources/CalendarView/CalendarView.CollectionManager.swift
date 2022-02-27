@@ -176,6 +176,7 @@ extension CalendarView: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
                     }
                 }
             }
+            collectionView.reloadData()
             return
         }
         
