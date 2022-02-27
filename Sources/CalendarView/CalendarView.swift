@@ -40,7 +40,7 @@ public class CalendarView: UIView {
     var calendar: Calendar
     var configuration: CalendarConfiguration
     let style: CalendarStyle
-    init(
+    public init(
         calendar: Calendar,
         configuration: CalendarConfiguration? = nil,
         style: CalendarStyle? = nil
