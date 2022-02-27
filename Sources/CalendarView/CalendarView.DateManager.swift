@@ -2,27 +2,32 @@ import Foundation
 
 extension CalendarView {
     
-    enum CalendarDataError: Error {
-        case failedToCreateDataSource
+    func lodaData() {
+        
+        let now = calendar.today
+        // TODO: - read from config
+        let rangeOfCalendar = calendar.date(byAdding: .year, value: 1, to: now)!
+        let monthRange = dateManager.generateMonthsBetween(
+            from: now,
+            to: rangeOfCalendar
+        )
+        
+        var result: [[Day]] = []
+        for month in monthRange {
+            result.append(dateManager.generateDaysInMonth(for: month))
+        }
+        
+        months = result
     }
     
     class DateManager {
         
         let calendar: Calendar
-        
-        private lazy var dateFormatter: DateFormatter = {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "d"
-            dateFormatter.locale = calendar.locale
-            dateFormatter.timeZone = calendar.timeZone
-            return dateFormatter
-        }()
-        
-        init(calendar: Calendar) {
+        let dateFormatter: DateFormatter
+        init(calendar: Calendar, dayDateFormatter: DateFormatter) {
             self.calendar = calendar
+            self.dateFormatter = dayDateFormatter
         }
-        
-        var selectedDate: Date = Date() // default is today
         
         func monthMetadata(for baseDate: Date) throws -> Month {
             guard
@@ -32,7 +37,7 @@ extension CalendarView {
                     for: baseDate)?.count,
                 let firstDayOfMonth = calendar.firstDayOfMonth(baseDate)
             else {
-                throw CalendarDataError.failedToCreateDataSource
+                throw CalendarError.failedToCreateDataSource
             }
             let firstDayWeekday = calendar.component(.weekday, from: firstDayOfMonth)
             return Month(
@@ -50,7 +55,7 @@ extension CalendarView {
             /// weird bug 🤷‍♂️
             /// I really do not know why this is happening if you set start of range to a static value you will face an error
             let numberOfDaysInMonth = metadata.numberOfDays
-            let offsetInInitialRow = metadata.firstWeekDay == calendar.firstWeekday ? calendar.identifier == .persian ? 0 : 1 : metadata.firstWeekDay
+            let offsetInInitialRow =  metadata.firstWeekDay == calendar.firstWeekday ? ( calendar.identifier == .persian ? 0 : 1 ) : metadata.firstWeekDay
             let firstDayOfMonth = metadata.firstDay
             let startOfRange = calendar.identifier == .persian ? 0 : 1
             let days: [Day] = (startOfRange..<(numberOfDaysInMonth + offsetInInitialRow))

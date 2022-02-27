@@ -29,31 +29,15 @@ public class CalendarView: UIView {
     }
     
     lazy var dateManager: DateManager = {
-        let manager = DateManager(calendar: calendar)
+        let manager = DateManager(calendar: calendar, dayDateFormatter: dayDateFormatter)
         return manager
     }()
     
     private lazy var today = calendar.today
     
-    lazy var months: [[Day]] = {
-        
-        let now = today
-        // TODO: - read from config
-        let rangeOfCalendar = calendar.date(byAdding: .year, value: 1, to: now)!
-        let months = dateManager.generateMonthsBetween(
-            from: now,
-            to: rangeOfCalendar
-        )
-        
-        var days: [[Day]] = []
-        for month in months {
-            days.append(dateManager.generateDaysInMonth(for: month))
-        }
-        
-        return days
-    }()
+    var months: [[Day]] = []
     
-    let calendar: Calendar
+    var calendar: Calendar
     var configuration: CalendarConfiguration
     let style: CalendarStyle
     init(
@@ -76,6 +60,8 @@ public class CalendarView: UIView {
         collectionView.allowsMultipleSelection = self.configuration.rangeSelectionEnabled
         
         daySymbolsContainerView.backgroundColor = self.style.symbolStyle.backgroundColor
+        
+        lodaData()
     }
     
     required init?(coder: NSCoder) {
@@ -129,6 +115,15 @@ public class CalendarView: UIView {
     lazy var monthHeaderDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM yyyy"
+        dateFormatter.calendar = calendar
+        dateFormatter.locale = calendar.locale
+        dateFormatter.timeZone = calendar.timeZone
+        return dateFormatter
+    }()
+    
+    lazy var dayDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d"
         dateFormatter.calendar = calendar
         dateFormatter.locale = calendar.locale
         dateFormatter.timeZone = calendar.timeZone
