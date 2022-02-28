@@ -48,9 +48,12 @@ extension AMLCalendar: UICollectionViewDataSource {
         let day = month[indexPath.row]
         cell.model = (day, calendar)
         
-        /// read extra info text from delegate if exist
-        if let info = delegate?.infoText(date: day.date) {
-            cell.infoText = info
+        /// get extra info label from delegate if exist
+        if let infoLabel = delegate?.label(date: day.date, locale: calendar.locale ?? Locale.current) {
+            cell.extraInfoLabel = infoLabel
+        } else {
+            /// hide if no label available
+            cell.extraInfoLabel.isHidden = true
         }
         
         // TODO: - move appearance functions to another delegated method
