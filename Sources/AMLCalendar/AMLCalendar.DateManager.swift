@@ -1,6 +1,6 @@
 import Foundation
 
-extension CalendarView {
+extension AMLCalendar {
     
     func lodaData() {
         

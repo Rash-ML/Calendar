@@ -1,6 +1,6 @@
 import Foundation
 
-extension CalendarView {
+extension AMLCalendar {
     
     public enum CalendarError: Swift.Error {
         case failedToCreateDataSource
