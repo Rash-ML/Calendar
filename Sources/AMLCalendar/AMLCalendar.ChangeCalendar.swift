@@ -1,6 +1,6 @@
 import UIKit
 
-extension CalendarView {
+extension AMLCalendar {
     
     private func refreshSymbolDays() {
         for stackItem in daySymbolsStackView.arrangedSubviews {

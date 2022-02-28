@@ -1,6 +1,6 @@
 import UIKit
 
-public class CalendarView: UIView {
+public class AMLCalendar: UIView {
     
     weak var delegate: CalendarDelegate?
     
