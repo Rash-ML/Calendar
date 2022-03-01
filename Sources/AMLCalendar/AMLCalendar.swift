@@ -2,7 +2,7 @@ import UIKit
 
 public class AMLCalendar: UIView {
     
-    weak var delegate: CalendarDelegate?
+    public weak var delegate: CalendarDelegate?
     
     var lowerBoundSelectedDate: Date?
     var upperBoundSelectedDate: Date?
