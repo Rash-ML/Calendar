@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-extension CalendarView {
+extension AMLCalendar {
     
     func setupCollectionView() {
         
@@ -23,7 +23,7 @@ extension CalendarView {
     }
 }
 
-extension CalendarView: UICollectionViewDataSource {
+extension AMLCalendar: UICollectionViewDataSource {
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return months.count
@@ -48,9 +48,12 @@ extension CalendarView: UICollectionViewDataSource {
         let day = month[indexPath.row]
         cell.model = (day, calendar)
         
-        /// read extra info text from delegate if exist
-        if let info = delegate?.infoText(date: day.date) {
-            cell.infoText = info
+        /// get extra info label from delegate if exist
+        if let infoLabel = delegate?.label(date: day.date, locale: calendar.locale ?? Locale.current) {
+            cell.extraInfoLabel = infoLabel
+        } else {
+            /// hide if no label available
+            cell.extraInfoLabel.isHidden = true
         }
         
         // TODO: - move appearance functions to another delegated method
@@ -80,7 +83,7 @@ extension CalendarView: UICollectionViewDataSource {
     }
 }
 
-extension CalendarView {
+extension AMLCalendar {
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
@@ -111,7 +114,7 @@ extension CalendarView {
 }
 
 
-extension CalendarView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension AMLCalendar: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let numberOfDaysInWeek = calendar.weekdaySymbols.count
@@ -176,6 +179,7 @@ extension CalendarView: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
                     }
                 }
             }
+            collectionView.reloadData()
             return
         }
         

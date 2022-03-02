@@ -1,8 +1,8 @@
 import UIKit
 
-public class CalendarView: UIView {
+public class AMLCalendar: UIView {
     
-    weak var delegate: CalendarDelegate?
+    public weak var delegate: CalendarDelegate?
     
     var lowerBoundSelectedDate: Date?
     var upperBoundSelectedDate: Date?
@@ -38,9 +38,14 @@ public class CalendarView: UIView {
     var months: [[Day]] = []
     
     var calendar: Calendar
-    var configuration: CalendarConfiguration
+    var configuration: CalendarConfiguration {
+        didSet {
+            collectionView.allowsMultipleSelection = self.configuration.rangeSelectionEnabled
+            collectionView.reloadData()
+        }
+    }
     let style: CalendarStyle
-    init(
+    public init(
         calendar: Calendar,
         configuration: CalendarConfiguration? = nil,
         style: CalendarStyle? = nil
@@ -55,9 +60,6 @@ public class CalendarView: UIView {
         setUp()
         setupCollectionView()
         setupSymbolsOfDays()
-        
-        /// setup configuration options
-        collectionView.allowsMultipleSelection = self.configuration.rangeSelectionEnabled
         
         daySymbolsContainerView.backgroundColor = self.style.symbolStyle.backgroundColor
         

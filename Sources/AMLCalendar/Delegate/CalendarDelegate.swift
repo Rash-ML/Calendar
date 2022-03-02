@@ -1,7 +1,7 @@
-import Foundation
+import UIKit
 
 public protocol CalendarDelegate: AnyObject {
-    func infoText(date: Date) -> String
+    func label(date: Date, locale: Locale) -> UILabel?
     func failedToSelectDate(error: Error)
     func didSelect(date: Date)
     func didSelectDateRange(lowerBound: Date, upperBound: Date?)

@@ -31,10 +31,7 @@ class CalendarCell: UICollectionViewCell {
         $0.textAlignment = .center
     }
     
-    lazy private var extraInfoLabel = UILabel() .. {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.textAlignment = .center
-    }
+    var extraInfoLabel: UILabel = UILabel() // default value is only for ignoring reusing problem
     
     public var style: CalendarStyle! {
         didSet {

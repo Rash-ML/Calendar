@@ -1,6 +1,6 @@
 import UIKit
 
-extension CalendarView {
+extension AMLCalendar {
     
     func symbolLabels(calendar: Calendar) -> [UILabel] {
         var symbols: [String] = []

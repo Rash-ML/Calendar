@@ -1,14 +1,14 @@
 import Foundation
 
-extension CalendarView {
+extension AMLCalendar {
     
     func lodaData() {
         
-        let now = calendar.today
+        let minDate = configuration.minimumDate
         // TODO: - read from config
-        let rangeOfCalendar = calendar.date(byAdding: .year, value: 1, to: now)!
+        let rangeOfCalendar = calendar.date(byAdding: .year, value: 1, to: minDate)!
         let monthRange = dateManager.generateMonthsBetween(
-            from: now,
+            from: minDate,
             to: rangeOfCalendar
         )
         
