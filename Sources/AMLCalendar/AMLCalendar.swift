@@ -38,7 +38,12 @@ public class AMLCalendar: UIView {
     var months: [[Day]] = []
     
     var calendar: Calendar
-    var configuration: CalendarConfiguration
+    var configuration: CalendarConfiguration {
+        didSet {
+            collectionView.allowsMultipleSelection = self.configuration.rangeSelectionEnabled
+            collectionView.reloadData()
+        }
+    }
     let style: CalendarStyle
     public init(
         calendar: Calendar,
@@ -55,9 +60,6 @@ public class AMLCalendar: UIView {
         setUp()
         setupCollectionView()
         setupSymbolsOfDays()
-        
-        /// setup configuration options
-        collectionView.allowsMultipleSelection = self.configuration.rangeSelectionEnabled
         
         daySymbolsContainerView.backgroundColor = self.style.symbolStyle.backgroundColor
         
