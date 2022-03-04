@@ -132,3 +132,25 @@ public class AMLCalendar: UIView {
         return dateFormatter
     }()
 }
+
+public extension AMLCalendar {
+    
+    func select(from: Date, to: Date?) {
+        
+        let normalizedFromDateComponents = calendar.dateComponents([.year, .month, .day], from: from)
+        guard let normalizedDate = calendar.date(from: normalizedFromDateComponents) else {
+            return assertionFailure("failed to normalized from date")
+        }
+        guard normalizedDate >= configuration.minimumDate else {
+            return assertionFailure("{AMLCalendar Error} - from date can not be before than minimum date in configuration")
+        }
+        lowerBoundSelectedDate = normalizedDate
+        collectionView.reloadData()
+        if configuration.rangeSelectionEnabled {
+            upperBoundSelectedDate = to
+            collectionView.reloadData()
+        } else {
+            return assertionFailure("{AMLCalendar Error} - you need to enable range selection on configuration before you set date range")
+        }
+    }
+}
