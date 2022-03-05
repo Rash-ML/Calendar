@@ -163,6 +163,7 @@ public extension AMLCalendar {
         
         self.style = style
         
+        /// set background of collection color
         collectionView.backgroundColor = style.backgroundColor
         
         /// update symbols view
