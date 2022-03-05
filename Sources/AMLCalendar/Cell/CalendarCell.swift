@@ -195,7 +195,7 @@ extension CalendarCell {
         case .start:
             if
                 let style = style,
-                let singleSelectImage = style.singleSelectionImage
+                let image = style.rangeEndSelectionImage
             {
                 image = singleSelectImage
             } else {
@@ -209,7 +209,7 @@ extension CalendarCell {
         case .end:
             if
                 let style = style,
-                let singleSelectImage = style.singleSelectionImage
+                let image = style.rangeEndSelectionImage
             {
                 image = singleSelectImage
             } else {
@@ -223,9 +223,9 @@ extension CalendarCell {
         case .mid:
             if
                 let style = style,
-                let singleSelectImage = style.singleSelectionImage
+                let image = style.rangeMidSelectionImage
             {
-                image = singleSelectImage
+                image = image
             } else {
                 image = UIImage(
                     named: "selection.mid.range",
