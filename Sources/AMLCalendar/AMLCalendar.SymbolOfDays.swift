@@ -2,7 +2,7 @@ import UIKit
 
 extension AMLCalendar {
     
-    func symbolLabels(calendar: Calendar) -> [UILabel] {
+    func symbolLabels(calendar: Calendar, style: CalendarStyle) -> [UILabel] {
         var symbols: [String] = []
         if let locale = calendar.locale {
             let identifier = locale.identifier
@@ -31,7 +31,7 @@ extension AMLCalendar {
     
     func setupSymbolsOfDays() {
         
-        let labels = symbolLabels(calendar: calendar)
+        let labels = symbolLabels(calendar: calendar, style: style)
         for label in labels {
             daySymbolsStackView.addArrangedSubview(label)
         }
