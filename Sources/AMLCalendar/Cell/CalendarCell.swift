@@ -197,7 +197,7 @@ extension CalendarCell {
                 let style = style,
                 let image = style.rangeEndSelectionImage
             {
-                image = singleSelectImage
+                image = image
             } else {
                 image = UIImage(
                     named: "selection.end.range",
@@ -211,7 +211,7 @@ extension CalendarCell {
                 let style = style,
                 let image = style.rangeEndSelectionImage
             {
-                image = singleSelectImage
+                image = image
             } else {
                 image = UIImage(
                     named: "selection.end.range",
