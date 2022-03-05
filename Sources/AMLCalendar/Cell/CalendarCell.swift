@@ -176,64 +176,25 @@ extension CalendarCell {
     
     private func selectionImage(position: SelectionPosition) -> UIImage? {
         
-        let image: UIImage?
         switch position {
         case .single:
-            if
-                let style = style,
-                let singleSelectImage = style.singleSelectionImage
-            {
-                image = singleSelectImage
-            } else {
-                image = UIImage(
-                    named: "selection.single",
-                    in: .module,
-                    compatibleWith: nil
-                )
-            }
-            return image
-        case .start:
-            if
-                let style = style,
-                let image = style.rangeEndSelectionImage
-            {
-                image = image
-            } else {
-                image = UIImage(
-                    named: "selection.end.range",
-                    in: .module,
-                    compatibleWith: nil
-                )
-            }
-            return image
-        case .end:
-            if
-                let style = style,
-                let image = style.rangeEndSelectionImage
-            {
-                image = image
-            } else {
-                image = UIImage(
-                    named: "selection.end.range",
-                    in: .module,
-                    compatibleWith: nil
-                )
-            }
-            return image
+            return style?.singleSelectionImage ?? UIImage(
+                named: "selection.single",
+                in: .module,
+                compatibleWith: nil
+            )
+        case .start, .end:
+            return style?.rangeEndSelectionImage ?? UIImage(
+                named: "selection.end.range",
+                in: .module,
+                compatibleWith: nil
+            )
         case .mid:
-            if
-                let style = style,
-                let image = style.rangeMidSelectionImage
-            {
-                image = image
-            } else {
-                image = UIImage(
-                    named: "selection.mid.range",
-                    in: .module,
-                    compatibleWith: nil
-                )
-            }
-            return image
+            return style?.rangeMidSelectionImage ?? UIImage(
+                named: "selection.mid.range",
+                in: .module,
+                compatibleWith: nil
+            )
         }
     }
 }
