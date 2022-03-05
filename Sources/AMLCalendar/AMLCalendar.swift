@@ -163,6 +163,8 @@ public extension AMLCalendar {
         
         self.style = style
         
+        backgroundColor = style.backgroundColor
+        
         /// update symbols view
         for view in daySymbolsStackView.arrangedSubviews {
             view.removeFromSuperview()
