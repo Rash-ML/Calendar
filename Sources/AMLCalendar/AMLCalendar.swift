@@ -137,20 +137,36 @@ public extension AMLCalendar {
     
     func select(from: Date, to: Date?) {
         
-        let normalizedFromDateComponents = calendar.dateComponents([.year, .month, .day], from: from)
-        guard let normalizedDate = calendar.date(from: normalizedFromDateComponents) else {
+        guard let normalizedFromDate = calendar.normalized(date: from) else {
             return assertionFailure("failed to normalized from date")
         }
-        guard normalizedDate >= configuration.minimumDate else {
+        guard normalizedFromDate >= configuration.minimumDate else {
             return assertionFailure("{AMLCalendar Error} - from date can not be before than minimum date in configuration")
         }
-        lowerBoundSelectedDate = normalizedDate
+        lowerBoundSelectedDate = normalizedFromDate
         collectionView.reloadData()
+        
         if configuration.rangeSelectionEnabled {
-            upperBoundSelectedDate = to
+            
+            guard let to = to,
+                  let normalizedToDate = calendar.normalized(date: to) else {
+                      return assertionFailure("failed to normalized to date")
+                  }
+            upperBoundSelectedDate = normalizedToDate
             collectionView.reloadData()
         } else {
             return assertionFailure("{AMLCalendar Error} - you need to enable range selection on configuration before you set date range")
         }
+    }
+}
+
+fileprivate extension Calendar {
+    
+    func normalized(date: Date) -> Date? {
+        let normalizedFromDateComponents = self.dateComponents(
+            [.year, .month, .day],
+            from: date
+        )
+        return self.date(from: normalizedFromDateComponents)
     }
 }
