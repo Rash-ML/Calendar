@@ -140,23 +140,29 @@ public extension AMLCalendar {
         guard let normalizedFromDate = calendar.normalized(date: from) else {
             return assertionFailure("failed to normalized from date")
         }
-        guard normalizedFromDate >= configuration.minimumDate else {
-            return assertionFailure("{AMLCalendar Error} - from date can not be before than minimum date in configuration")
+        guard normalizedFromDate >= configuration.minimumDate,
+              let lastDate = months.last?.last?.date,
+              normalizedFromDate < lastDate else {
+            return assertionFailure("{AMLCalendar Error} - from date can not be before than minimum date or after last date in configuration")
         }
         lowerBoundSelectedDate = normalizedFromDate
-        collectionView.reloadData()
-        
-        if configuration.rangeSelectionEnabled {
-            
-            guard let to = to,
-                  let normalizedToDate = calendar.normalized(date: to) else {
-                      return assertionFailure("failed to normalized to date")
-                  }
-            upperBoundSelectedDate = normalizedToDate
-            collectionView.reloadData()
-        } else {
-            return assertionFailure("{AMLCalendar Error} - you need to enable range selection on configuration before you set date range")
+        if let indexPathOfFromDate = index(date: normalizedFromDate) {
+            months[indexPathOfFromDate.section][indexPathOfFromDate.row].isSelected = true
         }
+        collectionView.reloadData()
+        scrollTo(date: normalizedFromDate)
+        
+        guard configuration.rangeSelectionEnabled else { return }
+        
+        guard let to = to,
+              let normalizedToDate = calendar.normalized(date: to) else {
+                  return assertionFailure("failed to normalized to date")
+              }
+        if let indexPathOfToDate = index(date: normalizedToDate) {
+            months[indexPathOfToDate.section][indexPathOfToDate.row].isSelected = true
+        }
+        upperBoundSelectedDate = normalizedToDate
+        collectionView.reloadData()
     }
     
     func update(style: CalendarStyle) {
@@ -185,5 +191,38 @@ fileprivate extension Calendar {
             from: date
         )
         return self.date(from: normalizedFromDateComponents)
+    }
+}
+
+extension AMLCalendar {
+    
+    func index(date: Date) -> IndexPath? {
+        
+        guard let normalizedDate = calendar.normalized(date: date) else { return nil }
+        for days in months.enumerated() {
+            for day in days.element.enumerated() {
+                if calendar.compare(normalizedDate, to: day.element.date, toGranularity: .year) == .orderedSame &&
+                    calendar.compare(normalizedDate, to: day.element.date, toGranularity: .month) == .orderedSame &&
+                    calendar.compare(normalizedDate, to: day.element.date, toGranularity: .day) == .orderedSame
+                {
+                    return IndexPath(row: day.offset, section: days.offset)
+                }
+            }
+        }
+        return nil
+    }
+    
+    public func scrollTo(
+        date: Date,
+        position: UICollectionView.ScrollPosition = .top,
+        animated: Bool = false
+    ) {
+        
+        guard let normalizedDate = calendar.normalized(date: date) else { return }
+        /// default value for indexPath will make this function safe
+        let indexPath: IndexPath = index(date: normalizedDate) ?? IndexPath(row: 0, section: 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
+        }
     }
 }
