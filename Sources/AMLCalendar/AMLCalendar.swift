@@ -221,11 +221,8 @@ extension AMLCalendar {
         guard let normalizedDate = calendar.normalized(date: date) else { return }
         /// default value for indexPath will make this function safe
         let indexPath: IndexPath = index(date: normalizedDate) ?? IndexPath(row: 0, section: 0)
-        let layoutAttributesForItem = collectionLayout.layoutAttributesForItem(at: indexPath)
-        let point = layoutAttributesForItem?.frame.origin ?? .zero
-        collectionView.setContentOffset(
-            point,
-            animated: animated
-        )
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            self?.collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+        }
     }
 }
