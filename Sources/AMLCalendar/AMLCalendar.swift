@@ -214,7 +214,7 @@ extension AMLCalendar {
     
     public func scrollTo(
         date: Date,
-        position: UICollectionView.ScrollPosition = .centeredVertically,
+        position: UICollectionView.ScrollPosition = .top,
         animated: Bool = false
     ) {
         
