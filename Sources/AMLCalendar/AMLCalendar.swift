@@ -44,7 +44,7 @@ public class AMLCalendar: UIView {
             collectionView.reloadData()
         }
     }
-    let style: CalendarStyle
+    var style: CalendarStyle
     public init(
         calendar: Calendar,
         configuration: CalendarConfiguration? = nil,
@@ -157,6 +157,23 @@ public extension AMLCalendar {
         } else {
             return assertionFailure("{AMLCalendar Error} - you need to enable range selection on configuration before you set date range")
         }
+    }
+    
+    func update(style: CalendarStyle) {
+        
+        self.style = style
+        
+        /// set background of collection color
+        collectionView.backgroundColor = style.backgroundColor
+        
+        /// update symbols view
+        for view in daySymbolsStackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+        setupSymbolsOfDays()
+        
+        /// reload collection view
+        collectionView.reloadData()
     }
 }
 
