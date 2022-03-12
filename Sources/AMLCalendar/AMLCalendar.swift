@@ -154,10 +154,13 @@ public extension AMLCalendar {
         
         guard configuration.rangeSelectionEnabled else { return }
         
-        guard let to = to,
-              let normalizedToDate = calendar.normalized(date: to) else {
-                  return assertionFailure("failed to normalized to date")
-              }
+        guard let to = to else { return }
+        
+        guard let normalizedToDate = calendar.normalized(date: to) else {
+            assertionFailure("failed to normalized to date")
+            return
+        }
+        
         if let indexPathOfToDate = index(date: normalizedToDate) {
             months[indexPathOfToDate.section][indexPathOfToDate.row].isSelected = true
         }
