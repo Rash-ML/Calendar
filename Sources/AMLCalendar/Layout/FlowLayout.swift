@@ -19,6 +19,6 @@ class CustomCollectionFlowLayout: UICollectionViewFlowLayout {
     }
     
     override var developmentLayoutDirection: UIUserInterfaceLayoutDirection {
-        return calendar.isRTL ? UIUserInterfaceLayoutDirection.rightToLeft : .leftToRight
+        return calendar.isRTL ? UIUserInterfaceLayoutDirection.leftToRight : .rightToLeft
     }
 }
