@@ -15,7 +15,7 @@ class CustomCollectionFlowLayout: UICollectionViewFlowLayout {
     }
     
     override var flipsHorizontallyInOppositeLayoutDirection: Bool {
-        return calendar.isRTL
+        return !calendar.isRTL
     }
     
     override var developmentLayoutDirection: UIUserInterfaceLayoutDirection {
