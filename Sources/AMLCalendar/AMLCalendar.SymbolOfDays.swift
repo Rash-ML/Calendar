@@ -3,20 +3,15 @@ import UIKit
 extension AMLCalendar {
     
     func symbolLabels(calendar: Calendar, style: CalendarStyle) -> [UILabel] {
+        
         var symbols: [String] = []
-        if let locale = calendar.locale {
-            let identifier = locale.identifier
-            switch identifier {
-            case _ where identifier.contains("fa"):
-                symbols = calendar.veryShortWeekdaySymbols
-                let saturdaySymbol = symbols.remove(at: 6)
-                symbols.insert(saturdaySymbol, at: 0)
-                symbols = symbols.reversed()
-            default:
-                symbols = calendar.shortWeekdaySymbols
-            }
+        if let locale = calendar.locale,
+           locale.identifier.contains("fa") {
+            symbols = calendar.veryShortWeekdaySymbols
+            let saturdaySymbol = symbols.remove(at: 6)
+            symbols.insert(saturdaySymbol, at: 0)
         } else {
-            symbols = calendar.shortWeekdaySymbols
+            symbols = calendar.shortWeekdaySymbols.reversed()
         }
         
         return symbols.map({

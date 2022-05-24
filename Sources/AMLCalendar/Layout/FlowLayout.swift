@@ -15,10 +15,10 @@ class CustomCollectionFlowLayout: UICollectionViewFlowLayout {
     }
     
     override var flipsHorizontallyInOppositeLayoutDirection: Bool {
-        return calendar.isRTL
+        return !calendar.isRTL
     }
     
     override var developmentLayoutDirection: UIUserInterfaceLayoutDirection {
-        return calendar.isRTL ? UIUserInterfaceLayoutDirection.rightToLeft : .leftToRight
+        return calendar.isRTL ? UIUserInterfaceLayoutDirection.leftToRight : .rightToLeft
     }
 }
