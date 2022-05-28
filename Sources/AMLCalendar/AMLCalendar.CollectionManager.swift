@@ -68,6 +68,14 @@ extension AMLCalendar: UICollectionViewDataSource {
                   return cell
               }
         
+        /// check for cell selection on same day
+        if lowerBoundDate == upperBoundDate && configuration.canSelectSameDayForRange {
+            if day.isSelected {
+                cell.select()
+            }
+            return cell
+        }
+        
         guard configuration.rangeSelectionEnabled else { return cell }
         let range = (lowerBoundDate...upperBoundDate)
         if day.date == range.lowerBound {
@@ -189,12 +197,22 @@ extension AMLCalendar: UICollectionViewDelegate, UICollectionViewDelegateFlowLay
             delegate?.didSelectDateRange(lowerBound: day.date, upperBound: nil)
         } else if upperBoundSelectedDate == nil {
 
+            guard let lowerBoundDate = lowerBoundSelectedDate else {
+                return assertionFailure("failed to find the date that already is selected")
+            }
+            
             /// check that new selected day not be before previous start selected date
-            guard let lowerBoundDate = lowerBoundSelectedDate,
-                  day.date > lowerBoundDate else {
-                      selectDateRangeLowerBound(day: day)
-                      return
-                  }
+            guard day.date > lowerBoundDate else {
+                
+                if configuration.canSelectSameDayForRange && day.date == lowerBoundDate {
+                    /// same day can be selected as date range
+                    delegate?.didSelectDateRange(lowerBound: lowerBoundDate, upperBound: day.date)
+                } else {
+                    /// new selected date is sooner than first selected date , so clean it up and set this date as range start date
+                    selectDateRangeLowerBound(day: day)
+                }
+                return
+            }
             
             let range = calendar.dateComponents([.day], from: lowerBoundDate, to: day.date)
             guard let rangeDaysCount = range.day,
