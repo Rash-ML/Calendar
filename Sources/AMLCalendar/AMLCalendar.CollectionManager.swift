@@ -84,8 +84,6 @@ extension AMLCalendar: UICollectionViewDataSource {
             cell.select(.end)
         } else if range.contains(day.date) {
             cell.select(.mid)
-        } else {
-            
         }
         return cell
     }
