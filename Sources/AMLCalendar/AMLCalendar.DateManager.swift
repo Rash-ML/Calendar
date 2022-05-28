@@ -86,8 +86,7 @@ extension AMLCalendar {
                 value: dayOffset,
                 to: baseDate) ?? baseDate
             
-            
-            return Day(
+            return makeDay(
                 date: date,
                 dayNumber: dateFormatter.string(from: date),
                 isSelected: false,
@@ -147,5 +146,23 @@ extension AMLCalendar {
             }
             return allDates
         }
+    }
+}
+
+extension AMLCalendar.DateManager {
+    
+    private func makeDay(
+        date: Date,
+        dayNumber: String,
+        isSelected: Bool,
+        isWithinMonth: Bool
+    ) -> Day {
+        Day(
+            date: date,
+            dayNumber: dayNumber,
+            isSelected: isSelected,
+            isWithinMonth: isWithinMonth,
+            isWeekend: calendar.isDateInWeekend(date)
+        )
     }
 }
