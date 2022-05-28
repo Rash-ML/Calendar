@@ -61,9 +61,14 @@ class CalendarCell: UICollectionViewCell {
         }
         update(isWithinMonth: day.isWithinMonth)
         label.showStroke = day.date < calendar.today
-        for view in [label, extraInfoLabel] {
-            view.textColor = day.date < calendar.today ? UIColor.lightGray : style.dayStyle.dayTextColor
-        }
+        
+        /// manage cell label text color
+        label.textColor = day.date < calendar.today ? UIColor.lightGray : {
+            day.isWeekend ? UIColor.red : style.dayStyle.dayTextColor
+        }()
+        
+        /// manage extra info label text color
+        extraInfoLabel.textColor = day.date < calendar.today ? UIColor.lightGray : style.dayStyle.dayTextColor
     }
     
     override init(frame: CGRect) {
