@@ -111,20 +111,23 @@ extension CalendarCell {
     
     func checkTodayStyle(day: Day, in calendar: Calendar) {
         
+        // TODO: - Move these options to config
         guard day.isWithinMonth else {
             contentView.backgroundColor = .clear
+            contentView.layer.cornerRadius = 0.0
+            contentView.layer.borderColor = UIColor.clear.cgColor
+            contentView.layer.borderWidth = 0.0
             return
         }
-        let todayColor: UIColor
-        if let style = style {
-            todayColor = style.todayBackgroundColor
-        } else {
-            todayColor = UIColor.lightGray
-        }
-        contentView.backgroundColor = calendar.isDate(
+        let todayBorderColor: UIColor = UIColor.lightGray
+        let borderWidth: CGFloat = 1.0
+        let cornerRadius: CGFloat = 10.0
+        contentView.layer.cornerRadius = cornerRadius
+        contentView.layer.borderWidth = borderWidth
+        contentView.layer.borderColor = calendar.isDate(
             day.date,
             inSameDayAs: calendar.today
-        ) ? todayColor : .clear
+        ) ? todayBorderColor.cgColor : UIColor.clear.cgColor
     }
     
     func update(isWithinMonth: Bool) {
