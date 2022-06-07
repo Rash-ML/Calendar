@@ -61,23 +61,14 @@ public struct CalendarStyle {
         singleSelectionImage: UIImage? = nil,
         rangeEndSelectionImage: UIImage? = nil,
         rangeMidSelectionImage: UIImage? = nil,
-        todayBackgroundColor: UIColor = UIColor(
-            red: 0,
-            green: 0.467,
-            blue: 0.859,
-            alpha: 0.5
-        ), symbolStyle: SymbolDayStyle = {
-            .init()
-        }(), headerStyle: HeaderStyle = {
-        .init()
-    }(), dayStyle: DayStyle = {
-        .init()
-    }()) {
+        symbolStyle: SymbolDayStyle = .init(),
+        headerStyle: HeaderStyle = .init(),
+        dayStyle: DayStyle = .init()
+    ) {
         self.backgroundColor = backgroundColor
         self.singleSelectionImage = singleSelectionImage
         self.rangeEndSelectionImage = rangeEndSelectionImage
         self.rangeMidSelectionImage = rangeMidSelectionImage
-        self.todayBackgroundColor = todayBackgroundColor
         self.symbolStyle = symbolStyle
         self.headerStyle = headerStyle
         self.dayStyle = dayStyle
@@ -87,7 +78,6 @@ public struct CalendarStyle {
     public var singleSelectionImage: UIImage?
     public var rangeEndSelectionImage: UIImage?
     public var rangeMidSelectionImage: UIImage?
-    public var todayBackgroundColor: UIColor
     public var symbolStyle: SymbolDayStyle
     public var headerStyle: HeaderStyle
     public var dayStyle: DayStyle
