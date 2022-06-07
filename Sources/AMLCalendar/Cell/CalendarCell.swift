@@ -121,7 +121,7 @@ extension CalendarCell {
         }
         let todayBorderColor: UIColor = UIColor.lightGray
         let borderWidth: CGFloat = 1.0
-        let cornerRadius: CGFloat = 10.0
+        let cornerRadius: CGFloat = 4.0
         contentView.layer.cornerRadius = cornerRadius
         contentView.layer.borderWidth = borderWidth
         contentView.layer.borderColor = calendar.isDate(
